@@ -5,6 +5,13 @@ This repository contains the backend for the Eskalate News Analytics assessment.
 ## Repository structure
 All source code and logic live under the `backend` directory.
 
+## Tech stack
+- Node.js + TypeScript
+- Express
+- Prisma + PostgreSQL
+- BullMQ + Redis
+- Zod for validation
+
 ## Requirements
 - Node.js 18+
 - PostgreSQL
@@ -28,9 +35,52 @@ All source code and logic live under the `backend` directory.
 
 ## Tests
 - Run tests: `npm run test`
-# eskalate-news-analytics-api
-<<<<<<< HEAD
-=======
-# eskalate-news-analytics-api
-# eskalate-news-analytics-api
->>>>>>> 15f210c (chore: initial commit)
+
+## Authentication
+- JWT access token with 24h expiration.
+- Send `Authorization: Bearer <token>` for protected endpoints.
+- Roles: `author`, `reader`.
+
+## Response shape
+Base response:
+```json
+{
+  "Success": true,
+  "Message": "",
+  "Object": {},
+  "Errors": null
+}
+```
+
+Paginated response:
+```json
+{
+  "Success": true,
+  "Message": "",
+  "Object": [],
+  "PageNumber": 1,
+  "PageSize": 10,
+  "TotalSize": 0,
+  "Errors": null
+}
+```
+
+## Endpoints
+Auth:
+- `POST /auth/signup` (public)
+- `POST /auth/login` (public)
+
+Articles:
+- `POST /articles` (author)
+- `GET /articles/me` (author, supports `includeDeleted=true`)
+- `PUT /articles/:id` (author)
+- `DELETE /articles/:id` (author, soft delete)
+- `GET /articles` (public; query: `category`, `author`, `q`, `page`, `size`)
+- `GET /articles/:id` (public; logs read)
+
+Author dashboard:
+- `GET /author/dashboard` (author)
+
+## Notes
+- Read tracking uses a short Redis TTL to prevent rapid refreshes from creating excessive `ReadLog` entries.
+- Analytics aggregation runs in UTC and upserts into `DailyAnalytics`.
