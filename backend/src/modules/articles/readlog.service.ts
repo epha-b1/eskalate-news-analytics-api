@@ -10,7 +10,7 @@ export const recordRead = async (
   let shouldLog = true;
 
   try {
-    const setResult = await redis.set(dedupeKey, "1", "NX", "EX", 10);
+    const setResult = await redis.set(dedupeKey, "1", "EX", 10, "NX");
     shouldLog = Boolean(setResult);
   } catch {
     shouldLog = true;

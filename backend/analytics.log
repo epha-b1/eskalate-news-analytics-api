@@ -1,0 +1,5 @@
+[dotenv@17.3.1] injecting env (4) from .env -- tip: 🤖 agentic secret storage: https://dotenvx.com/as2
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+[04:59:47 UTC] [32mINFO[39m: [36mAnalytics worker is ready and listening for jobs[39m
+[04:59:47 UTC] [32mINFO[39m: [36mStarting aggregation for 2026-02-26[39m
+[04:59:47 UTC] [32mINFO[39m: [36mCompleted aggregation for 2026-02-26: Processed 1 items[39m

@@ -1,6 +1,6 @@
 import { Response } from "express";
 
-type BaseResponseObject = Record<string, unknown> | null;
+type BaseResponseObject = any;
 
 type ErrorResponse = {
   Success: false;
@@ -12,14 +12,14 @@ type ErrorResponse = {
 type SuccessResponse = {
   Success: true;
   Message: string;
-  Object: BaseResponseObject;
+  Object: any;
   Errors: null;
 };
 
 type PaginatedResponse = {
   Success: true;
   Message: string;
-  Object: BaseResponseObject[];
+  Object: any[];
   PageNumber: number;
   PageSize: number;
   TotalSize: number;

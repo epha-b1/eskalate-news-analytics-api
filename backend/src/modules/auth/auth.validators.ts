@@ -11,7 +11,7 @@ export const signupSchema = z.object({
   email: z.string().email("Invalid email"),
   password: z.string().regex(passwordRegex, "Password is not strong enough"),
   role: z.enum(["author", "reader"], {
-    required_error: "Role is required"
+    message: "Role is required and must be author or reader"
   })
 });
 

@@ -53,7 +53,8 @@ router.put(
   requireRole("author"),
   validateBody(updateArticleSchema),
   async (req, res) => {
-    const article = await updateArticle(req.params.id, req.user!.id, req.body);
+    const articleId = req.params.id as string;
+    const article = await updateArticle(articleId, req.user!.id, req.body);
     return sendSuccess(res, "Article updated", article, 200);
   }
 );
@@ -63,7 +64,8 @@ router.delete(
   requireAuth,
   requireRole("author"),
   async (req, res) => {
-    await softDeleteArticle(req.params.id, req.user!.id);
+    const articleId = req.params.id as string;
+    await softDeleteArticle(articleId, req.user!.id);
     return sendSuccess(res, "Article deleted", null, 200);
   }
 );
@@ -71,9 +73,9 @@ router.delete(
 router.get("/", validateQuery(articlesQuerySchema), async (req, res) => {
   const { pageNumber, pageSize, skip } = getPagination(req.query);
   const filters = {
-    category: req.query.category,
-    author: req.query.author,
-    q: req.query.q
+    category: req.query.category as string | undefined,
+    author: req.query.author as string | undefined,
+    q: req.query.q as string | undefined
   };
 
   const result = await listPublishedArticles(filters, { pageNumber, pageSize, skip });
@@ -81,7 +83,8 @@ router.get("/", validateQuery(articlesQuerySchema), async (req, res) => {
 });
 
 router.get("/:id", optionalAuth, async (req, res) => {
-  const article = await getPublishedArticleById(req.params.id);
+  const articleId = req.params.id as string;
+  const article = await getPublishedArticleById(articleId);
 
   const readerId = req.user?.id ?? null;
   const viewerKey = req.user ? `user:${req.user.id}` : `guest:${req.ip}`;

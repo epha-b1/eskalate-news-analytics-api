@@ -1,4 +1,4 @@
-import { ArticleStatus } from "@prisma/client";
+import { ArticleStatus, Article } from "@prisma/client";
 import { prisma } from "../../core/db/prisma";
 import { HttpError } from "../../core/middleware/error";
 
@@ -23,6 +23,20 @@ type ArticlesFilters = {
   q?: string;
 };
 
+export interface AuthorArticleItem {
+  id: string;
+  title: string;
+  category: string;
+  status: ArticleStatus;
+  createdAt: Date;
+  isDeleted: boolean;
+}
+
+export interface AuthorArticlesResult {
+  items: AuthorArticleItem[];
+  total: number;
+}
+
 export const createArticle = async (authorId: string, input: CreateArticleInput) => {
   const article = await prisma.article.create({
     data: {
@@ -41,38 +55,23 @@ export const getAuthorArticles = async (
   authorId: string,
   pagination: Pagination,
   includeDeleted: boolean
-) => {
+): Promise<AuthorArticlesResult> => {
   const whereClause = {
     authorId,
     ...(includeDeleted ? {} : { deletedAt: null })
   };
 
-  const [articles, total] = await prisma.$transaction([
-    prisma.article.findMany({
-      where: whereClause,
-      orderBy: { createdAt: "desc" },
-      skip: pagination.skip,
-      take: pagination.pageSize
-    }),
-    prisma.article.count({ where: whereClause })
-  ]);
+  const articles = await prisma.article.findMany({
+    where: whereClause,
+    orderBy: { createdAt: "desc" },
+    skip: pagination.skip,
+    take: pagination.pageSize
+  });
 
-  interface AuthorArticleItem {
-    id: string;
-    title: string;
-    category: string;
-    status: ArticleStatus;
-    createdAt: Date;
-    isDeleted: boolean;
-  }
-
-  interface AuthorArticlesResult {
-    items: AuthorArticleItem[];
-    total: number;
-  }
+  const total = await prisma.article.count({ where: whereClause });
 
   return {
-    items: articles.map((article): AuthorArticleItem => ({
+    items: articles.map((article: Article): AuthorArticleItem => ({
       id: article.id,
       title: article.title,
       category: article.category,
@@ -81,7 +80,7 @@ export const getAuthorArticles = async (
       isDeleted: Boolean(article.deletedAt)
     })),
     total
-  } as AuthorArticlesResult;
+  };
 };
 
 export const updateArticle = async (
@@ -140,16 +139,15 @@ export const listPublishedArticles = async (
       : {})
   };
 
-  const [articles, total] = await prisma.$transaction([
-    prisma.article.findMany({
-      where: whereClause,
-      include: { author: { select: { name: true } } },
-      orderBy: { createdAt: "desc" },
-      skip: pagination.skip,
-      take: pagination.pageSize
-    }),
-    prisma.article.count({ where: whereClause })
-  ]);
+  const articles = await prisma.article.findMany({
+    where: whereClause,
+    include: { author: { select: { name: true } } },
+    orderBy: { createdAt: "desc" },
+    skip: pagination.skip,
+    take: pagination.pageSize
+  });
+
+  const total = await prisma.article.count({ where: whereClause });
 
   return {
     items: articles.map((article) => ({

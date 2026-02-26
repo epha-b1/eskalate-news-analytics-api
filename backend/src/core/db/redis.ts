@@ -8,6 +8,6 @@ redis.on("connect", () => {
   logger.info("Redis connected successfully");
 });
 
-redis.on("error", (err) => {
-  logger.error("Redis connection error", err);
+redis.on("error", (err: Error) => {
+  logger.error({ err }, "Redis connection error");
 });

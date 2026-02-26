@@ -23,6 +23,6 @@ worker.on("ready", () => {
   logger.info("Analytics worker is ready and listening for jobs");
 });
 
-worker.on("error", (err) => {
-  logger.error("Analytics worker error", err);
+worker.on("error", (err: Error) => {
+  logger.error({ err }, "Analytics worker error");
 });
