@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { requireAuth } from "../middleware/auth";
-import { requireRole } from "../middleware/rbac";
-import { sendPaginated } from "../utils/response";
-import { getPagination } from "../utils/pagination";
-import { getAuthorDashboard } from "../services/dashboard.service";
+import { requireAuth } from "../../core/middleware/auth";
+import { requireRole } from "../../core/middleware/rbac";
+import { sendPaginated } from "../../core/utils/response";
+import { getPagination } from "../../core/utils/pagination";
+import { getAuthorDashboard } from "./dashboard.service";
 
 const router = Router();
 

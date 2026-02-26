@@ -5,6 +5,10 @@ This repository contains the backend for the Eskalate News Analytics assessment.
 ## Repository structure
 All source code and logic live under the `backend` directory.
 
+### Project Layout (Modular Clean Architecture)
+- `src/core/`: Shared infrastructure (database clients, centralized error handling, cross-cutting middlewares).
+- `src/modules/`: Feature-based domain logic (auth, articles, analytics). Each module is self-contained with its own routes, services, and validators.
+
 ## Tech stack
 - Node.js + TypeScript
 - Express

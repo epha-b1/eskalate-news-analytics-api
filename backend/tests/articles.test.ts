@@ -2,11 +2,11 @@ import request from "supertest";
 import { describe, expect, it, vi } from "vitest";
 import jwt from "jsonwebtoken";
 import { app } from "../src/app";
-import * as articleService from "../src/services/article.service";
-import * as readlogService from "../src/services/readlog.service";
+import * as articleService from "../src/modules/articles/article.service";
+import * as readlogService from "../src/modules/articles/readlog.service";
 
-vi.mock("../src/services/article.service");
-vi.mock("../src/services/readlog.service");
+vi.mock("../src/modules/articles/article.service");
+vi.mock("../src/modules/articles/readlog.service");
 
 const token = jwt.sign({ role: "author" }, "test-secret", { subject: "author-1" });
 

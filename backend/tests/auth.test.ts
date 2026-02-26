@@ -1,9 +1,9 @@
 import request from "supertest";
 import { describe, expect, it, vi } from "vitest";
 import { app } from "../src/app";
-import * as authService from "../src/services/auth.service";
+import * as authService from "../src/modules/auth/auth.service";
 
-vi.mock("../src/services/auth.service");
+vi.mock("../src/modules/auth/auth.service");
 
 describe("Auth routes", () => {
   it("creates a user", async () => {

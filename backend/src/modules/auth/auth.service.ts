@@ -1,9 +1,9 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Prisma, Role } from "@prisma/client";
-import { prisma } from "../db/prisma";
-import { env } from "../config/env";
-import { HttpError } from "../middleware/error";
+import { prisma } from "../../core/db/prisma";
+import { env } from "../../core/config/env";
+import { HttpError } from "../../core/middleware/error";
 
 type SignupInput = {
   name: string;

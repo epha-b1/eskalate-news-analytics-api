@@ -1,6 +1,6 @@
 import { ArticleStatus } from "@prisma/client";
-import { prisma } from "../db/prisma";
-import { HttpError } from "../middleware/error";
+import { prisma } from "../../core/db/prisma";
+import { HttpError } from "../../core/middleware/error";
 
 type CreateArticleInput = {
   title: string;
@@ -57,8 +57,22 @@ export const getAuthorArticles = async (
     prisma.article.count({ where: whereClause })
   ]);
 
+  interface AuthorArticleItem {
+    id: string;
+    title: string;
+    category: string;
+    status: ArticleStatus;
+    createdAt: Date;
+    isDeleted: boolean;
+  }
+
+  interface AuthorArticlesResult {
+    items: AuthorArticleItem[];
+    total: number;
+  }
+
   return {
-    items: articles.map((article) => ({
+    items: articles.map((article): AuthorArticleItem => ({
       id: article.id,
       title: article.title,
       category: article.category,
@@ -67,7 +81,7 @@ export const getAuthorArticles = async (
       isDeleted: Boolean(article.deletedAt)
     })),
     total
-  };
+  } as AuthorArticlesResult;
 };
 
 export const updateArticle = async (

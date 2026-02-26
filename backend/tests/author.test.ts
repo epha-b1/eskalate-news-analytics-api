@@ -2,9 +2,9 @@ import request from "supertest";
 import { describe, expect, it, vi } from "vitest";
 import jwt from "jsonwebtoken";
 import { app } from "../src/app";
-import * as dashboardService from "../src/services/dashboard.service";
+import * as dashboardService from "../src/modules/author/dashboard.service";
 
-vi.mock("../src/services/dashboard.service");
+vi.mock("../src/modules/author/dashboard.service");
 
 const token = jwt.sign({ role: "author" }, "test-secret", { subject: "author-1" });
 

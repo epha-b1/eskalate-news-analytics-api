@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const requireEnv = (key: string, fallback?: string): string => {
   const value = process.env[key] ?? fallback;
   if (!value) {

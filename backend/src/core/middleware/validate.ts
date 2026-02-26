@@ -21,7 +21,8 @@ export const validateQuery = (schema: ZodSchema) => {
       const errors = result.error.issues.map((issue) => issue.message);
       throw new HttpError(400, "Validation failed", errors);
     }
-    req.query = result.data as Record<string, string>;
+    // Update req.query with validated data
+    Object.assign(req.query, result.data);
     next();
   };
 };

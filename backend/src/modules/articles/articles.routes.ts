@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { optionalAuth, requireAuth } from "../middleware/auth";
-import { requireRole } from "../middleware/rbac";
-import { validateBody, validateQuery } from "../middleware/validate";
+import { optionalAuth, requireAuth } from "../../core/middleware/auth";
+import { requireRole } from "../../core/middleware/rbac";
+import { validateBody, validateQuery } from "../../core/middleware/validate";
 import {
   createArticleSchema,
   updateArticleSchema,
   articlesQuerySchema,
   authorArticlesQuerySchema
-} from "../validators/article";
+} from "./article.validators";
 import {
   createArticle,
   getAuthorArticles,
@@ -15,10 +15,10 @@ import {
   softDeleteArticle,
   listPublishedArticles,
   getPublishedArticleById
-} from "../services/article.service";
-import { sendPaginated, sendSuccess } from "../utils/response";
-import { getPagination } from "../utils/pagination";
-import { recordRead } from "../services/readlog.service";
+} from "./article.service";
+import { sendPaginated, sendSuccess } from "../../core/utils/response";
+import { getPagination } from "../../core/utils/pagination";
+import { recordRead } from "./readlog.service";
 
 const router = Router();
 
